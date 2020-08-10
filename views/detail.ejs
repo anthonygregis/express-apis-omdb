@@ -17,9 +17,11 @@
                 <span><%= data.Ratings[1].Value %></span>
             </div>
         <% } else { %>
-            <div id="tomatoMeter">
-                <span>IMDb Rating: <%= data.Ratings[0].Value %></span>
-            </div>
+            <% if (data.Ratings[0]) { %>
+                <div id="tomatoMeter">
+                    <span>IMDb Rating: <%= data.Ratings[0].Value %></span>
+                </div>
+            <% } %>
         <% } %>
 
         <% if (data.Poster !== "N/A") { %>

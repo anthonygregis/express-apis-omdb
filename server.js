@@ -3,6 +3,7 @@ const express = require('express')
 const ejsLayouts = require('express-ejs-layouts')
 const axios = require('axios')
 const app = express()
+const db = require('./models')
 
 // Sets EJS as the view engine
 app.set('view engine', 'ejs')
@@ -33,7 +34,7 @@ app.get('/results', (req, res) => {
 
   axios.get('http://omdbapi.com/', apiParams)
       .then(response => {
-        console.log(response.data)
+        // console.log(response.data)
         res.render('results', {data: response.data.Search, searchTerm: searchTerm})
       })
       .catch(err => {
@@ -53,7 +54,7 @@ app.get('/movies/:id', (req, res) => {
 
     axios.get('http://omdbapi.com/', apiParams)
         .then(response => {
-            console.log(response.data)
+            // console.log(response.data)
             res.render('detail', {data: response.data})
         })
         .catch(err => {
@@ -61,8 +62,27 @@ app.get('/movies/:id', (req, res) => {
         })
 })
 
+app.get('/faves', (req, res) => {
+    db.fave.findAll().then(response => {
+        res.render('faves', {data: response})
+    })
+})
+
+app.post('/faves', (req, res) => {
+    let title = req.body.title
+    let imdbID = req.body.imdbID
+
+    db.fave.create({
+        title: title,
+        imdbid: imdbID
+    }).then(response => {
+        console.log(response)
+        res.redirect('/faves')
+    })
+})
+
 // The app.listen function returns a server handle
-var server = app.listen(process.env.PORT || 8000)
+const server = app.listen(process.env.PORT || 8000)
 
 // We can export this server to other servers like this
 module.exports = server

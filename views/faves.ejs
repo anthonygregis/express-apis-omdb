@@ -1,0 +1,10 @@
+<h1 class="center">Favorite Movies (<%= data.length %>)</h1>
+<div class="grid">
+<% data.forEach(faveItem => { %>
+    <div class="movie">
+        <a href="/movies/<%= faveItem.dataValues.imdbid %>">
+            <h3><%= faveItem.dataValues.title %></h3>
+        </a>
+    </div>
+<% }) %>
+</div>

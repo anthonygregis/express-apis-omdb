@@ -6,6 +6,12 @@
         <div class="movie">
             <a href="/movies/<%= result.imdbID %>">
                 <h3><%= result.Title %> (<%= result.Year%>)</h3>
+                <form method="POST" action="/faves">
+                    <input type="hidden" name="title" value="<%= result.Title %>">
+                    <input type="hidden" name="imdbID" value="<%= result.imdbID %>">
+                    <input type="submit" value="Add to Favorites">
+                </form>
+                <br>
                 <% if (result.Poster !== "N/A") { %>
                     <img src="<%= result.Poster%>" alt="<%= result.Title %> Poster"/>
                 <% } else { %>
